@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Clock</title>
+  <link rel="stylesheet" href="main/styles.css">
+  <link href='https://fonts.googleapis.com/css?family=Big Shoulders Stencil Display' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Candal' rel='stylesheet'>
+
+  <script>
+    function timeUpdate(){
+      var currentDate = new Date();
+      var chrs, cmins, csecs;
+      var ddate, dmonthn, dmonth, dyear, ddayn, dday, dsuff;
+
+      chrs = currentDate.getHours();
+      cmins = currentDate.getMinutes();
+      csecs = currentDate.getSeconds();
+
+      if(chrs<=12){
+        document.getElementById("period").innerHTML = "A<br>M";
+        document.getElementById("period").parentElement.style.backgroundColor = "#ff0";
+        document.getElementById("period").style.color = "#000";
+      }else{
+        chrs -= 12;
+        document.getElementById("period").innerHTML = "P<br>M";
+        document.getElementById("period").parentElement.style.backgroundColor = "#004";
+        document.getElementById("period").style.color = "#fff";
+      }
+
+      chrs = addZero(chrs);
+      cmins = addZero(cmins);
+      csecs = addZero(csecs);
+
+      function addZero(i){
+          if(i<10){
+            i = "0" + i;
+          }
+          return i;
+      }
+
+      document.getElementById("hours").innerHTML = chrs;
+      document.getElementById("minutes").innerHTML = cmins;
+      document.getElementById("seconds").innerHTML = csecs;
+
+      ddate = currentDate.getDate();
+      dmonthn = currentDate.getMonth();
+      dyear = currentDate.getFullYear();
+      ddayn = currentDate.getDay();
+
+      switch(ddayn){
+        case 0:
+          dday = "Sunday";
+          break;
+        case 1:
+          dday = "Monday";
+          break;
+        case 2:
+          dday = "Tuesday";
+          break;
+        case 3:
+          dday = "Wednesday";
+          break;
+        case 4:
+          dday = "Thursday";
+          break;
+        case 5:
+          dday = "Friday";
+          break;
+        case 6:
+          dday = "Saturday";
+          break;
+        default:
+          dday = "Error";
+        break;
+      }
+
+      switch(dmonthn){
+        case 0:
+          dmonth = "January";
+          break;
+        case 1:
+          dmonth = "February";
+          break;
+        case 2:
+          dmonth = "March";
+          break;
+        case 3:
+          dmonth = "April";
+          break;
+        case 4:
+          dmonth = "May";
+          break;
+        case 5:
+          dmonth = "June";
+          break;
+        case 6:
+          dmonth = "July";
+          break;
+        case 7:
+          dmonth = "August";
+          break;
+        case 8:
+          dmonth = "September";
+          break;
+        case 9:
+          dmonth = "October";
+          break;
+        case 10:
+          dmonth = "November";
+          break;
+        case 11:
+          dmonth = "December";
+          break;
+      }
+
+      if(ddate == 1){
+        dsuff = "st";
+      }else if(ddate == 2){
+        dsuff = "nd";
+      }else if(ddate == 3){
+        dsuff = "rd";
+      }else{
+        dsuff = "th";
+      }
+
+      document.getElementById("dateholder").innerHTML = ddate + "/" + (dmonthn + 1) + "/" + dyear;
+      document.getElementById("dayname").innerHTML = dday + ",";
+      document.getElementById("expdate").innerHTML = ddate + dsuff + " " + dmonth + ", " + dyear;
+
+      var rep = setTimeout(timeUpdate, 500);
+    }
+
+    var clkchk = 0;
+    function daydisp(){
+
+      if(clkchk == 0){
+        document.getElementById("date").style.borderBottomLeftRadius = "0px";
+        document.getElementById("date").style.borderBottomRightRadius = "0px";
+        document.getElementById("fulldate").style.display = "block";
+        clkchk = 1;
+      }else if(clkchk == 1){
+        document.getElementById("date").style.borderBottomLeftRadius = "10px";
+        document.getElementById("date").style.borderBottomRightRadius = "10px";
+        document.getElementById("fulldate").style.display = "none";
+        clkchk = 0;
+      }
+    }
+  </script>
+
+</head>
+<body onload="timeUpdate()">
+
+  <div id="intro">
+    <center>
+      <h1>Clock</h1>
+      <p>Tells the time.</p>
+    </center>
+  </div>
+
+  <!--main content-->
+
+  <!--clock-->
+  <div class="timeclock">
+    <div style="width: 28%;">
+    <div class="timeholder">
+      <span id="hours"></span>
+    </div>
+    </div>
+    <div style="width: 28%;">
+    <div class="timeholder">
+      <span id="minutes"></span>
+    </div>
+    </div>
+    <div style="width: 28%;">
+    <div class="timeholder">
+      <span id="seconds"></span>
+    </div>
+    </div>
+    <div style="width: 16%;">
+    <div class="timeholder" style=" font-size: 60px;">
+      <span id="period"></span>
+    </div>
+    </div>
+  </div>
+
+  <!--calendar-->
+  <center>
+  <div id="calendar">
+    <button id="date" class="date" onclick="daydisp()">
+        Date: <span id="dateholder"></span>
+    </button>
+    <div id="fulldate" class="fulldate">
+      <span id="dayname" style="color: #336; padding: 15px;"></span>
+      <br>
+      <span id="expdate" style="padding: 15px;"></span>
+    </div>
+  </div>
+
+</body>
+</html>
